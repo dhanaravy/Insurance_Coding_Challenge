@@ -22,6 +22,8 @@ public class PolicyController {
 			System.out.println("press 3. Get All Policy");
 			System.out.println("press 4. Update Policy");
 			System.out.println("Press 5. Delete Policy");
+			System.out.println("Press 6. To pay");
+			System.out.println("Press 7. To Claim");
 			System.out.println("press 0. for exit");
 			System.out.println("**************************************");
 			int input = sc.nextInt();
