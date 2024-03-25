@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.exception.DatabaseConnectionException;
 import com.exception.InvalidInputException;
+import com.exception.MinimumPaymentException;
 import com.exception.PolicyNotFoundException;
 import com.model.Client;
 import com.service.PolicyService;
@@ -99,7 +100,47 @@ public class PolicyController {
 				} catch (SQLException | DatabaseConnectionException | PolicyNotFoundException e) {
 					e.printStackTrace();
 				}
-				break;	
+				break;
+			case 6:
+				System.out.println("Enter your id:");
+				int clientId=sc.nextInt();
+				System.out.println("Check your details...");
+				try {
+					List<Client> list1 = policyService.fetchAllPolicy();
+					Client c = policyService.fetchPolicyById(list1,clientId);
+					System.out.println(String.format("%-15s%-30s%-15s","Name","Contact Info","Policy"));
+					System.out.println(String.format("%-15s%-30s%-15s",c.getName(),c.getContactInfo(),c.getPolicy()));
+					System.out.println("Enter the amount:");
+					double amount=sc.nextDouble();
+					policyService.payPolicy(clientId,amount);
+					System.out.println("Payment Successfull!!");
+				} catch (SQLException | DatabaseConnectionException | PolicyNotFoundException | MinimumPaymentException e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+			case 7:
+				System.out.println("Enter your id:");
+				int clientId1=sc.nextInt();
+				System.out.println("Check your details...");
+				try {
+					List<Client> list1 = policyService.fetchAllPolicy();
+					Client c = policyService.fetchPolicyById(list1,clientId1);
+					System.out.println(String.format("%-15s%-30s%-15s","Name","Contact Info","Policy"));
+					System.out.println(String.format("%-15s%-30s%-15s",c.getName(),c.getContactInfo(),c.getPolicy()));
+					System.out.println("Enter the amount to claim:");
+					double amount=sc.nextDouble();
+					System.out.println("Enter the claim id you received from admins:");
+					String claimId=sc.next();
+					System.out.println("Enter the status:");
+					String status=sc.next();
+					policyService.claimFromPolicy(claimId,clientId1,amount,c.getPolicy(),status);
+					System.out.println("Recorded!!");
+				} catch (SQLException | DatabaseConnectionException | PolicyNotFoundException e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+			default:
+				System.out.println("Invalid Input");
 			}
 		}
 		sc.close();

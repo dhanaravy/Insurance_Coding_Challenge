@@ -16,6 +16,10 @@ public interface IPolicyService {
 
 	void deletePolicy(int id) throws SQLException, DatabaseConnectionException;
 
+	void payPolicy(int clientId, double amount) throws SQLException, DatabaseConnectionException;
+
+	void claimFromPolicy(String claimId, int clientId1, double amount, String policy, String status) throws SQLException, DatabaseConnectionException;
+
 
 	
 

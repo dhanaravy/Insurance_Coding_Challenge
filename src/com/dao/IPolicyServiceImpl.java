@@ -1,9 +1,11 @@
 package com.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,6 +109,47 @@ public class IPolicyServiceImpl implements IPolicyService {
 
 		DBUtil.DBClose();
 		
+	}
+
+
+	public void payPolicy(int clientId, double amount) throws SQLException, DatabaseConnectionException {
+		
+		Connection conn = DBUtil.getDbConn();
+
+		String sql = "insert into payment(date,amount,client_id) values(?,?,?)";
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		pstmt.setDate(1,Date.valueOf(LocalDate.now()));
+		pstmt.setDouble(2,amount);
+		pstmt.setInt(3,clientId);
+
+		pstmt.executeUpdate();
+
+		DBUtil.DBClose();
+	}
+
+
+	@Override
+	public void claimFromPolicy(String claimId, int clientId1, double amount, String policy, String status) throws SQLException, DatabaseConnectionException {
+		
+		Connection conn = DBUtil.getDbConn();
+
+		String sql = "insert into claim(claim_number,date_filed,claim_amount,status,policy,client_id) values(?,?,?,?,?,?)";
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, claimId);
+		pstmt.setDate(2,Date.valueOf(LocalDate.now()));
+		pstmt.setDouble(3,amount);
+		pstmt.setString(4, status);
+		pstmt.setString(5, policy);
+		pstmt.setInt(6, clientId1);
+		
+
+		pstmt.executeUpdate();
+
+		DBUtil.DBClose();
 	}
 
 

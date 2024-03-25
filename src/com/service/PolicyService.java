@@ -7,6 +7,7 @@ import com.dao.IPolicyService;
 import com.dao.IPolicyServiceImpl;
 import com.exception.DatabaseConnectionException;
 import com.exception.InvalidInputException;
+import com.exception.MinimumPaymentException;
 import com.exception.PolicyNotFoundException;
 import com.model.Client;
 
@@ -42,6 +43,16 @@ public class PolicyService {
 		iPolicyService.deletePolicy(id);
 	}
 
+	public void payPolicy(int clientId, double amount) throws SQLException, DatabaseConnectionException, MinimumPaymentException {
+		if(amount>100)
+			iPolicyService.payPolicy(clientId,amount);
+		else
+			throw new MinimumPaymentException("Minimum amount is >100");
+	}
 
+	public void claimFromPolicy(String claimId, int clientId1, double amount, String policy, String status) throws SQLException, DatabaseConnectionException {
+		
+		iPolicyService.claimFromPolicy(claimId,clientId1,amount,policy,status);
+	}
 
 }
